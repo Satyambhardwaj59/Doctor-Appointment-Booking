@@ -15,7 +15,8 @@ const Navbar = () => {
     const logout = () => {
         setToken(false);
         localStorage.removeItem('token');
-        toast.success("Logout successfully")
+        toast.success("Logout successfully");
+        navigate('/login')
     }
 
   return (
