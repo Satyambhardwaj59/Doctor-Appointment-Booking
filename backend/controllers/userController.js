@@ -78,9 +78,6 @@ const getProfile = async (req, res) => {
     try {
         const { userId } = req.user; // ✅ FROM req.user not req.body
 
-
-        console.log("UserId from token:", userId);
-
         const userData = await userModel.findById(userId).select('-password');
 
         res.json({ success: true, userData });
@@ -96,7 +93,6 @@ const updateProfile = async (req, res) => {
     try {
         const {userId} = req.user;
         const { name, phone, address, dob, gender } = req.body;
-        console.log(userId, name, phone, address, dob, gender );
         
         const imageFile = req.file;
 
