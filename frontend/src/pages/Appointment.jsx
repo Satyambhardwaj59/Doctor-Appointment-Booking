@@ -23,7 +23,6 @@ const Appointment = () => {
   const fetchDocInfo = async () => {
     const docInfo = doctors.find(doc => doc._id === docId);
     setDocInfo(docInfo);
-    console.log(docInfo);
     
   }
 
@@ -100,8 +99,7 @@ const Appointment = () => {
 
       const slotDate = day + '_' + month + '_' + year
       
-      const  {data } = await axios.post(backendUrl + '/api/user/book-appointment', {docId, slotDate, slotTime}, {headers: {token}})
-      console.log(data);
+      const  {data } = await axios.post(backendUrl + '/api/user/book-appointment', {docId, slotDate, slotTime}, {headers: {token}});
       
       if (data.success) {
         toast.success(data.message)
@@ -128,10 +126,10 @@ const Appointment = () => {
     getAvailableSlots();
   }, [docInfo])
 
-  useEffect(() => {
-    console.log(docSlots);
+  // useEffect(() => {
+  //   console.log(docSlots);
     
-  }, [docSlots])
+  // }, [docSlots])
 
   return docInfo && (
     <div>
