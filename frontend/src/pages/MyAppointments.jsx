@@ -3,11 +3,13 @@ import { AppContext } from './../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const MyAppointments = () => {
 
   const {backendUrl, token, getDoctorsData } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const [appointments, setAppointments] = useState([]);
   const months = [' ', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -50,6 +52,23 @@ const MyAppointments = () => {
     }
   }
 
+  const appointmentRazorpay = async (appointmentId) => {
+    try {
+
+      const {data} = await axios.post(backendUrl + '/api/user/payment-razorpay', {appointmentId}, {headers: {token}})
+      
+      if (data.success) {
+        toast.success(data.message);
+        getUserAppointments();
+        navigate('/my-appointments');
+      } 
+
+    } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+    }
+  }
+
   useEffect(() => {
     if (token) {
       getUserAppointments()
@@ -75,7 +94,8 @@ const MyAppointments = () => {
                 </div>
                 <div></div>
                 <div className='flex flex-col gap-2 justify-end'>
-                  {!item.cancelled && <button className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded-full cursor-pointer hover:bg-indigo-600 hover:text-white transition-all duration-300'>Pay online</button>}
+                  {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border rounded-full text-stone-500 bg-indigo-100'>Paid</button>}
+                  {!item.cancelled && !item.payment && <button onClick={() => appointmentRazorpay(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded-full cursor-pointer hover:bg-indigo-600 hover:text-white transition-all duration-300'>Pay online</button>}
                   {!item.cancelled && <button onClick={() => cancleAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded-full cursor-pointer hover:bg-red-600 hover:text-white transition-all duration-300'>Cancle appointment</button>}
                   {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 text-red-500 rounded-full'>Appointment cancelled</button>}
                 </div>
