@@ -10,7 +10,7 @@ import userRouter from './routes/userRoute.js';
 // app config
 const app = express();
 const port = process.env.PORT || 4000;
-connectDB();
+// connectDB();
 connectCloudinary();
 
 // middlewares 
@@ -28,14 +28,14 @@ app.get('/', (req, res) => {
     
 });
 
-app.listen(port, () => {
-    console.log('Server is running on port: ', port);
-})
-
-// connectDB().then(() => {
-//     app.listen(port, () => {
-//         console.log('Server is running on port: ', port);
-//     });
-// }).catch(err => {
-//     console.error('Database connection failed:', err);
+// app.listen(port, () => {
+//     console.log('Server is running on port: ', port);
 // })
+
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log('Server is running on port: ', port);
+    });
+}).catch(err => {
+    console.error('Database connection failed:', err);
+})

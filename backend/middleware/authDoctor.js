@@ -1,21 +1,21 @@
 import jwt from 'jsonwebtoken';
 
-// User Authentication middleware
-const authUser = async (req, res, next) => {
+// Doctor Authentication middleware
+const authDoctor = async (req, res, next) => {
   try {
-    const { token } = req.headers;
+    const { dtoken } = req.headers;
 
-    if (!token) {
+    if (!dtoken) {
       return res.status(401).json({ success: false, message: "Token missing" });
     }
 
-    const token_decode = jwt.verify(token, process.env.JWT_SECRET);
+    const token_decode = jwt.verify(dtoken, process.env.JWT_SECRET);
 
     if (!token_decode.id) {
       return res.status(400).json({ success: false, message: "Token payload invalid" });
     }
 
-    req.user = { userId: token_decode.id };
+    req.user = { docId: token_decode.id };
 
     next();
 
@@ -25,4 +25,4 @@ const authUser = async (req, res, next) => {
   }
 };
 
-export default authUser;
+export default authDoctor;
