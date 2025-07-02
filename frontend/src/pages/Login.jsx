@@ -24,7 +24,7 @@ const Login = () => {
         
         
         const {data} = await axios.post(backendUrl + '/api/user/register', {name, password, email});
-        console.log(data);
+        
         if (data.success) {
           localStorage.setItem('token', data.token);
           setToken(data.token);
@@ -34,7 +34,7 @@ const Login = () => {
         }
       } else {
         const {data} = await axios.post(backendUrl + '/api/user/login', { password, email});
-        console.log(data);
+        
         
         if (data.success) {
           localStorage.setItem('token', data.token);

@@ -1,4 +1,3 @@
-import { assets } from './../assets/assets';
 import { useState } from 'react';
 import About from './../../../frontend/src/pages/About';
 import { useContext } from 'react';
@@ -38,7 +37,6 @@ const Login = () => {
                  if (data.success) {
                     localStorage.setItem('dToken', data.token)
                     setDToken(data.token);
-                    console.log(data.token);
                     
                 } else {
                     toast.error(data.message)
